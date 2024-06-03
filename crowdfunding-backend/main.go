@@ -8,17 +8,22 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
-	// Load environment variables from .env file
+// loadEnv loads environment variables from a .env file.
+func loadEnv() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
+}
 
-	// Connect to the database using config
-	_, err := database.ConnectDB()
-	if err != nil {
-		log.Fatal(err.Error())
+// connectDB establishes a connection to the database.
+func connectDB() {
+	if _, err := database.ConnectDB(); err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
 	}
-
 	fmt.Println("Connection to database is good")
+}
+
+func main() {
+	loadEnv()
+	connectDB()
 }
