@@ -21,6 +21,12 @@ func GetDSN() string {
 	port := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 
+	fmt.Printf("DB_USER: %s\n", user)
+	fmt.Printf("DB_PASSWORD: %s\n", password)
+	fmt.Printf("DB_HOST: %s\n", host)
+	fmt.Printf("DB_PORT: %s\n", port)
+	fmt.Printf("DB_NAME: %s\n", dbName)
+
 	// Buat string DSN berdasarkan nilai variabel lingkungan yang diambil
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		user, password, host, port, dbName)
