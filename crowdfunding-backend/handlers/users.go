@@ -3,6 +3,7 @@ package handlers
 import (
 	"crowdfunding-backend/domains/users"
 	"crowdfunding-backend/utils/helpers"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -124,7 +125,11 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	path := "images/" + file.Filename
+	//harusnya dapat dari jwt
+	userID := 1
+
+	//path := "images/" + file.Filename
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
 	if err != nil {
@@ -133,9 +138,6 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-
-	//harusnya dapat dari jwt
-	userID := 1
 
 	_, err = h.userService.SaveAvatar(userID, path)
 	if err != nil {
