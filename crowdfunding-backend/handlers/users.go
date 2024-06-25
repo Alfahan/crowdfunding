@@ -3,7 +3,6 @@ package handlers
 import (
 	"crowdfunding-backend/domains/users"
 	"crowdfunding-backend/utils/helpers"
-	"github.com/go-playground/validator/v10"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,12 +21,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
-		var errors []string
-
-		for _, e := range err.(validator.ValidationErrors) {
-			errors = append(errors, e.Error())
-		}
-
+		errors := helpers.FormatError(err)
 		errorMessage := gin.H{"errors": errors}
 
 		response := helpers.APIResponse("Register account failed", http.StatusUnprocessableEntity, "error", errorMessage)
@@ -38,12 +32,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 	newUser, err := h.userService.RegisterUser(input)
 
 	if err != nil {
-		var errors []string
-
-		for _, e := range err.(validator.ValidationErrors) {
-			errors = append(errors, e.Error())
-		}
-
+		errors := helpers.FormatError(err)
 		errorMessage := gin.H{"errors": errors}
 
 		response := helpers.APIResponse("Register account failed", http.StatusBadRequest, "error", errorMessage)
